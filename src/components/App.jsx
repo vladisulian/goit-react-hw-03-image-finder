@@ -14,6 +14,7 @@ export class App extends Component {
     let pageNumber = 1;
     fetchImages(data, pageNumber)
       .then(foundData => {
+        pageNumber++;
         this.setState({ images: foundData.hits });
       })
       .catch(error => {

@@ -1,11 +1,10 @@
 export const ImageGalleryItem = ({ images }) => {
   return images.map(image => {
-    // console.log('log from ImageGalleryItem', image);
     return (
       <li className="ImageGalleryItem" key={image.id}>
         <img
           src={image.webformatURL}
-          alt="image"
+          alt={image.tags}
           className="ImageGalleryItem-image"
         />
       </li>
