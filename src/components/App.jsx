@@ -14,40 +14,34 @@ export class App extends Component {
   };
 
   onFormSubmitFetch = data => {
-    if (data !== '') {
-      this.setState({ currentSearch: data });
+    this.setState({ currentSearch: data });
 
-      fetchImages(data, pageNumber)
-        .then(foundData => {
-          if (foundData.hits == 0) {
-            Notiflix.Notify.failure('There is no images');
-          } else {
-            Notiflix.Notify.success(
-              `Hooray, we found ${foundData.total} images!`
-            );
-            pageNumber++;
-            this.setState({ images: foundData.hits });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      pageNumber++;
-    } else {
-      Notiflix.Notify.warning('Please, enter text');
-    }
+    fetchImages(data, pageNumber)
+      .then(foundData => {
+        if (foundData.hits == 0) {
+          Notiflix.Notify.failure('There is no images');
+        } else {
+          Notiflix.Notify.success(
+            `Hooray, we found ${foundData.total} images!`
+          );
+          pageNumber++;
+          this.setState({ images: foundData.hits });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    pageNumber++;
   };
 
   loadMore = () => {
     const data = this.state.currentSearch;
-    console.log('search value now -', data);
+    // console.log('search value now -', data);
     fetchImages(data, pageNumber)
       .then(foundData => {
-        Notiflix.Notify.success(`Hooray, we found ${foundData.total} images!`);
-
         pageNumber++;
         this.setState(prevState => ({
-          images: prevState.images.concat(foundData.hits),
+          images: [...prevState.images, ...foundData.hits],
         }));
       })
       .catch(error => {
