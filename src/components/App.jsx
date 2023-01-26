@@ -13,21 +13,23 @@ export class App extends Component {
   onFormSubmitFetch = data => {
     console.log('data from APP', data);
     let pageNumber = 1;
-    fetchImages(data, pageNumber)
-      .then(foundData => {
-        if (foundData.hits == 0) {
-          Notiflix.Notify.failure('There is no images');
-        } else {
-          Notiflix.Notify.success(
-            `Hooray, we found ${foundData.total} images!`
-          );
-          pageNumber++;
-          this.setState({ images: foundData.hits });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (data !== '') {
+      fetchImages(data, pageNumber)
+        .then(foundData => {
+          if (foundData.hits == 0) {
+            Notiflix.Notify.failure('There is no images');
+          } else {
+            Notiflix.Notify.success(
+              `Hooray, we found ${foundData.total} images!`
+            );
+            pageNumber++;
+            this.setState({ images: foundData.hits });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   render() {
@@ -37,7 +39,7 @@ export class App extends Component {
         <ImageGalleryList>
           <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
-        <LoadMoreButton />
+        {this.state.images.length >= 12 && <LoadMoreButton />}
       </>
     );
   }
