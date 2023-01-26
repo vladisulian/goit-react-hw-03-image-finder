@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGalleryList } from './Gallery/ImageGalleryList';
 import { ImageGalleryItem } from './Gallery/ImageGalleryItem';
+import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
 import Notiflix from 'notiflix';
 export class App extends Component {
   state = {
@@ -14,8 +15,15 @@ export class App extends Component {
     let pageNumber = 1;
     fetchImages(data, pageNumber)
       .then(foundData => {
-        pageNumber++;
-        this.setState({ images: foundData.hits });
+        if (foundData.hits == 0) {
+          Notiflix.Notify.failure('There is no images');
+        } else {
+          Notiflix.Notify.success(
+            `Hooray, we found ${foundData.total} images!`
+          );
+          pageNumber++;
+          this.setState({ images: foundData.hits });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -29,26 +37,8 @@ export class App extends Component {
         <ImageGalleryList>
           <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
+        <LoadMoreButton />
       </>
     );
   }
-}
-
-{
-  /* <div>
-<input
-  type="text"
-  name="searchbar"
-  value={this.state.searchbar}
-  onChange={this.handleChange}
-/>
-<button
-  type="submit"
-  onClick={() => {
-    fetchImages(this.state.searchbar);
-  }}
->
-  Send request
-</button>
-</div> */
 }
