@@ -1,17 +1,20 @@
 import { fetchImages } from './fetch';
 import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 export class App extends Component {
-  state = {
-    searchbar: '',
-  };
-  handleChange = e => {
-    this.setState({
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
+  onFormSubmitFetch = data => {
+    let pageNumber = 1;
+    console.log('data from APP', data);
+    fetchImages(data, 1);
   };
   render() {
-    return <Searchbar />;
+    return (
+      <>
+        <Searchbar onSubmit={this.onFormSubmitFetch} />;
+        <ImageGallery />
+      </>
+    );
   }
 }
 
