@@ -5,15 +5,18 @@ import { ImageGalleryList } from './Gallery/ImageGalleryList';
 import { ImageGalleryItem } from './Gallery/ImageGalleryItem';
 import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
 import Notiflix from 'notiflix';
+let pageNumber = 1;
+
 export class App extends Component {
   state = {
     images: [],
+    currentSearch: '',
   };
 
   onFormSubmitFetch = data => {
-    console.log('data from APP', data);
-    let pageNumber = 1;
     if (data !== '') {
+      this.setState({ currentSearch: data });
+
       fetchImages(data, pageNumber)
         .then(foundData => {
           if (foundData.hits == 0) {
@@ -29,12 +32,28 @@ export class App extends Component {
         .catch(error => {
           console.log(error);
         });
+      pageNumber++;
     } else {
       Notiflix.Notify.warning('Please, enter text');
     }
   };
+
   loadMore = () => {
-    console.log('load more');
+    const data = this.state.currentSearch;
+    console.log('search value now -', data);
+    fetchImages(data, pageNumber)
+      .then(foundData => {
+        Notiflix.Notify.success(`Hooray, we found ${foundData.total} images!`);
+
+        pageNumber++;
+        this.setState(prevState => ({
+          images: prevState.images.concat(foundData.hits),
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    pageNumber++;
   };
 
   render() {
