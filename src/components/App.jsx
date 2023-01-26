@@ -29,18 +29,20 @@ export class App extends Component {
         .catch(error => {
           console.log(error);
         });
+    } else {
+      Notiflix.Notify.warning('Please, enter text');
     }
   };
 
   render() {
     return (
-      <>
+      <div className="ImageGalleryFind">
         <Searchbar onSubmit={this.onFormSubmitFetch} />;
         <ImageGalleryList>
           <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
         {this.state.images.length >= 12 && <LoadMoreButton />}
-      </>
+      </div>
     );
   }
 }
