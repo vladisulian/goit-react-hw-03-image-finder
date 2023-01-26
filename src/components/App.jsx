@@ -23,7 +23,7 @@ export class App extends Component {
     console.log('data from APP', data);
     let pageNumber = 1;
     fetchImages(data, pageNumber).then(foundData => {
-      this.setState({ images: foundData });
+      this.setState({ images: foundData.hits });
     });
   };
 
@@ -32,7 +32,7 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.onFormSubmitFetch} />;
         <ImageGalleryList>
-          <ImageGalleryItem />
+          <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
       </>
     );
