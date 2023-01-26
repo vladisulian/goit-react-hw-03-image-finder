@@ -1,9 +1,13 @@
 export const ImageGalleryItem = ({ images }) => {
-  images.map(image => {
-    // console.log(image);
+  return images.map(image => {
+    // console.log('log from ImageGalleryItem', image);
     return (
-      <li class="gallery-item" key={image.id}>
-        <img src={image.tag} alt="" />
+      <li className="ImageGalleryItem" key={image.id}>
+        <img
+          src={image.webformatURL}
+          alt="image"
+          className="ImageGalleryItem-image"
+        />
       </li>
     );
   });
