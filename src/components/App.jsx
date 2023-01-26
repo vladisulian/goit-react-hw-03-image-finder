@@ -33,6 +33,9 @@ export class App extends Component {
       Notiflix.Notify.warning('Please, enter text');
     }
   };
+  loadMore = () => {
+    console.log('load more');
+  };
 
   render() {
     return (
@@ -41,7 +44,9 @@ export class App extends Component {
         <ImageGalleryList>
           <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
-        {this.state.images.length >= 12 && <LoadMoreButton />}
+        {this.state.images.length >= 12 && (
+          <LoadMoreButton loadMore={this.loadMore} />
+        )}
       </div>
     );
   }
