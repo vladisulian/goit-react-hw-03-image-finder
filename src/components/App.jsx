@@ -9,22 +9,16 @@ export class App extends Component {
     images: [],
   };
 
-  // async componentDidUpdate() {
-  //   try {
-  //     const images = await fetchImages();
-  //     this.setState({ images });
-  //     console.log('state is updated');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   onFormSubmitFetch = data => {
     console.log('data from APP', data);
     let pageNumber = 1;
-    fetchImages(data, pageNumber).then(foundData => {
-      this.setState({ images: foundData.hits });
-    });
+    fetchImages(data, pageNumber)
+      .then(foundData => {
+        this.setState({ images: foundData.hits });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {
