@@ -1,8 +1,9 @@
 import { fetchImages } from './fetch';
 import { Component } from 'react';
+import { Searchbar } from './Searchbar/Searchbar';
 export class App extends Component {
   state = {
-    inputValue: '',
+    searchbar: '',
   };
   handleChange = e => {
     this.setState({
@@ -10,23 +11,25 @@ export class App extends Component {
     });
   };
   render() {
-    return (
-      <div>
-        <input
-          type="text"
-          name="inputValue"
-          value={this.state.inputValue}
-          onChange={this.handleChange}
-        />
-        <button
-          type="submit"
-          onClick={() => {
-            fetchImages(this.state.inputValue);
-          }}
-        >
-          Send request
-        </button>
-      </div>
-    );
+    return <Searchbar />;
   }
+}
+
+{
+  /* <div>
+<input
+  type="text"
+  name="searchbar"
+  value={this.state.searchbar}
+  onChange={this.handleChange}
+/>
+<button
+  type="submit"
+  onClick={() => {
+    fetchImages(this.state.searchbar);
+  }}
+>
+  Send request
+</button>
+</div> */
 }
