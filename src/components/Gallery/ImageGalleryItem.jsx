@@ -5,7 +5,7 @@ export const ImageGalleryItem = ({ images, onClick }) => {
         className="ImageGalleryItem"
         key={image.id}
         onClick={() => {
-          onClick(image);
+          onClick();
         }}
       >
         <img

@@ -4,6 +4,15 @@ import { createPortal } from 'react-dom';
 const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', event => {
+      console.log('До if')
+      if (event.code === 'Escape') {
+        console.log('После if');
+        this.props.onClose();
+      } 
+    });
+  }
   render() {
     return createPortal(
       <div className="Overlay">

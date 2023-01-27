@@ -57,9 +57,10 @@ export class App extends Component {
     pageNumber++;
   };
 
-  toggleModal = image => {
-    this.setState(state => ({ showModal: !state.showmodal }));
-    return console.log(image);
+  toggleModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+    }));
   };
 
   render() {
@@ -83,11 +84,7 @@ export class App extends Component {
             wrapperClassName
           />
         )}
-        {this.state.showModal && (
-          <Modal>
-            <h1>A, hello</h1>
-          </Modal>
-        )}
+        {this.state.showModal && <Modal onClose={this.toggleModal}></Modal>}
         {this.state.images.length >= 12 && (
           <LoadMoreButton loadMore={this.loadMore} />
         )}
