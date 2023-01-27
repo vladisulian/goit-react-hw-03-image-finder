@@ -16,6 +16,7 @@ export class App extends Component {
     currentSearch: '',
     isLoading: false,
     showModal: false,
+    modalImage: null,
   };
 
   onFormSubmitFetch = data => {
@@ -57,10 +58,15 @@ export class App extends Component {
     pageNumber++;
   };
 
-  toggleModal = () => {
+  toggleModal = modalImage => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
+      modalImage: null,
     }));
+    if (modalImage) {
+      this.setState({ modalImage });
+      console.log(modalImage);
+    }
   };
 
   render() {
@@ -84,7 +90,17 @@ export class App extends Component {
             wrapperClassName
           />
         )}
-        {this.state.showModal && <Modal onClose={this.toggleModal}></Modal>}
+        {this.state.showModal && (
+          <Modal
+            onClose={this.toggleModal}
+            children={
+              <img
+                src={this.state.modalImage.webformatURL}
+                alt={this.state.modalImage.tags}
+              />
+            }
+          ></Modal>
+        )}
         {this.state.images.length >= 12 && (
           <LoadMoreButton loadMore={this.loadMore} />
         )}

@@ -5,14 +5,13 @@ export const ImageGalleryItem = ({ images, onClick }) => {
         className="ImageGalleryItem"
         key={image.id}
         onClick={() => {
-          onClick();
+          onClick(image);
         }}
       >
         <img
           src={image.webformatURL}
           alt={image.tags}
           className="ImageGalleryItem-image"
-          title="title"
         />
       </li>
     );
