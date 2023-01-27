@@ -5,16 +5,19 @@ import { ImageGalleryList } from './Gallery/ImageGalleryList';
 import { ImageGalleryItem } from './Gallery/ImageGalleryItem';
 import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
 import Notiflix from 'notiflix';
+import { Audio } from 'react-loader-spinner';
+
 let pageNumber = 1;
 
 export class App extends Component {
   state = {
     images: [],
     currentSearch: '',
+    isLoading: false,
   };
 
   onFormSubmitFetch = data => {
-    this.setState({ currentSearch: data });
+    this.setState({ currentSearch: data, isLoading: true });
 
     fetchImages(data, pageNumber)
       .then(foundData => {
@@ -25,7 +28,7 @@ export class App extends Component {
             `Hooray, we found ${foundData.total} images!`
           );
           pageNumber++;
-          this.setState({ images: foundData.hits });
+          this.setState({ images: foundData.hits, isLoading: false });
         }
       })
       .catch(error => {
@@ -35,6 +38,7 @@ export class App extends Component {
   };
 
   loadMore = () => {
+    this.setState({ isLoading: true });
     const data = this.state.currentSearch;
     // console.log('search value now -', data);
     fetchImages(data, pageNumber)
@@ -42,6 +46,7 @@ export class App extends Component {
         pageNumber++;
         this.setState(prevState => ({
           images: [...prevState.images, ...foundData.hits],
+          isLoading: false,
         }));
       })
       .catch(error => {
@@ -57,6 +62,17 @@ export class App extends Component {
         <ImageGalleryList>
           <ImageGalleryItem images={this.state.images} />
         </ImageGalleryList>
+        {this.state.isLoading && (
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="orange"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClassName
+          />
+        )}
         {this.state.images.length >= 12 && (
           <LoadMoreButton loadMore={this.loadMore} />
         )}
