@@ -5,6 +5,10 @@ import { ImageGalleryList } from './Gallery/ImageGalleryList';
 import { ImageGalleryItem } from './Gallery/ImageGalleryItem';
 import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
 import Notiflix from 'notiflix';
+
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+let gallerySimpleLightbox = new SimpleLightbox('.lightbox-a', {});
 let pageNumber = 1;
 
 export class App extends Component {
@@ -15,23 +19,25 @@ export class App extends Component {
 
   onFormSubmitFetch = data => {
     this.setState({ currentSearch: data });
+    pageNumber = 1;
 
     fetchImages(data, pageNumber)
       .then(foundData => {
-        if (foundData.hits == 0) {
+        if (foundData.hits === 0) {
           Notiflix.Notify.failure('There is no images');
         } else {
           Notiflix.Notify.success(
             `Hooray, we found ${foundData.total} images!`
           );
-          pageNumber++;
+          console.log(foundData);
+          gallerySimpleLightbox.refresh();
+
           this.setState({ images: foundData.hits });
         }
       })
       .catch(error => {
         console.log(error);
       });
-    pageNumber++;
   };
 
   loadMore = () => {
