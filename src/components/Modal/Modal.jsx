@@ -1,9 +1,10 @@
-export const Modal = image => {
-  return (
-    <div className="Overlay">
-      <div className="Modal">
-        <img src={image} alt={image.tags} />
+import { Component } from 'react';
+export class Modal extends Component {
+  render() {
+    return (
+      <div className="Overlay">
+        <div className="Modal">{this.props.children}</div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
