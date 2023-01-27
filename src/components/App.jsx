@@ -4,6 +4,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGalleryList } from './Gallery/ImageGalleryList';
 import { ImageGalleryItem } from './Gallery/ImageGalleryItem';
 import { LoadMoreButton } from './LoadMoreButton/LoadMoreButton';
+import { Modal } from './Modal/Modal';
 import Notiflix from 'notiflix';
 import { Audio } from 'react-loader-spinner';
 
@@ -14,6 +15,7 @@ export class App extends Component {
     images: [],
     currentSearch: '',
     isLoading: false,
+    showModal: false,
   };
 
   onFormSubmitFetch = data => {
@@ -55,12 +57,19 @@ export class App extends Component {
     pageNumber++;
   };
 
+  toggleModal = () => {
+    this.setState(state => ({ showModal: !state.showmodal }));
+  };
+
   render() {
     return (
       <div className="ImageGalleryFind">
         <Searchbar onSubmit={this.onFormSubmitFetch} />;
         <ImageGalleryList>
-          <ImageGalleryItem images={this.state.images} />
+          <ImageGalleryItem
+            images={this.state.images}
+            onClick={this.toggleModal}
+          />
         </ImageGalleryList>
         {this.state.isLoading && (
           <Audio
@@ -73,6 +82,7 @@ export class App extends Component {
             wrapperClassName
           />
         )}
+        {this.state.showModal && <Modal />}
         {this.state.images.length >= 12 && (
           <LoadMoreButton loadMore={this.loadMore} />
         )}

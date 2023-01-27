@@ -1,7 +1,13 @@
-export const ImageGalleryItem = ({ images }) => {
+export const ImageGalleryItem = ({ images, onClick }) => {
   return images.map(image => {
     return (
-      <li className="ImageGalleryItem" key={image.id}>
+      <li
+        className="ImageGalleryItem"
+        key={image.id}
+        onClick={() => {
+          onClick();
+        }}
+      >
         <img
           src={image.webformatURL}
           alt={image.tags}
