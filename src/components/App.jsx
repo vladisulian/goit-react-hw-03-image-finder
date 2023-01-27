@@ -72,7 +72,7 @@ export class App extends Component {
   render() {
     return (
       <div className="ImageGalleryFind">
-        <Searchbar onSubmit={this.onFormSubmitFetch} />;
+        <Searchbar onSubmit={this.onFormSubmitFetch} />
         <ImageGalleryList>
           <ImageGalleryItem
             images={this.state.images}
