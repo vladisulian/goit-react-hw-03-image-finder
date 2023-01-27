@@ -219,3 +219,13 @@ img {
 .Button:focus {
   background-color: #303f9f;
 }
+
+/* loader */
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100000;
+}

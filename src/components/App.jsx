@@ -70,6 +70,12 @@ export class App extends Component {
   };
 
   render() {
+    const loader = document.querySelector('[data-testid="audio-loading"]');
+    if (loader) {
+      console.log(loader);
+      loader.classList.add('loader');
+    }
+
     return (
       <div className="ImageGalleryFind">
         <Searchbar onSubmit={this.onFormSubmitFetch} />
