@@ -26,7 +26,6 @@ export class App extends Component {
     ) {
       fetchImages(this.state.currentSearch, this.state.page)
         .then(foundData => {
-          console.log(foundData);
           this.setState({
             loadMoreButon: foundData.hits.length > 12,
             isLoading: true,
