@@ -11,6 +11,13 @@ export class Modal extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
+  handleBackdropClick = e => {
+    console.log('Клик в бекдроп');
+    if (e.currentTarget === e.target) {
+      this.props.onClose();
+    }
+  };
+
   handleKeyDown = event => {
     if (event.code === 'Escape') {
       this.props.onClose();
@@ -18,7 +25,7 @@ export class Modal extends Component {
   };
   render() {
     return createPortal(
-      <div className="Overlay">
+      <div className="Overlay" onClick={this.handleBackdropClick}>
         <div className="Modal">{this.props.children}</div>
       </div>,
       modalRoot
