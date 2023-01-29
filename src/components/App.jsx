@@ -21,8 +21,9 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('component did update');
-    console.log(prevState.page);
+    // console.log('component did update');
+    console.log('prevState.page', prevState.page);
+    console.log('this.state.page', this.state.page);
     if (
       prevState.page !== this.state.page ||
       prevState.currentSearch !== this.state.currentSearch
@@ -35,14 +36,13 @@ export class App extends Component {
             Notiflix.Notify.success(
               `Hooray, we found ${foundData.total} images!`
             );
-            this.state.page++;
+            // this.state.page++;
             this.setState({ images: foundData.hits, isLoading: false });
           }
         })
         .catch(error => {
           console.log(error);
         });
-      pageNumber++;
     }
   }
   onFormSubmitFetch = data => {
@@ -57,8 +57,14 @@ export class App extends Component {
 
   loadMore = () => {
     this.setState(prevState => {
-      prevState.page++;
+      return {
+        page: prevState.page + 1,
+      };
     });
+
+    setTimeout(() => {
+      console.log(this.state.page);
+    }, 200);
 
     // console.log('search value now -', data);
     // fetchImages(data, pageNumber)
