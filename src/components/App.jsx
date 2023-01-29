@@ -17,45 +17,63 @@ export class App extends Component {
     isLoading: false,
     showModal: false,
     modalImage: null,
+    page: 1,
   };
 
+  async componentDidUpdate(prevState) {
+    console.log('component did update');
+    console.log(prevState.page);
+    if (
+      prevState.page !== this.state.page ||
+      prevState.currentSearch !== this.state.currentSearch
+    ) {
+      fetchImages(this.state.currentSearch, this.state.page)
+        .then(foundData => {
+          if (foundData.hits == 0) {
+            Notiflix.Notify.failure('There is no images');
+          } else {
+            Notiflix.Notify.success(
+              `Hooray, we found ${foundData.total} images!`
+            );
+            pageNumber++;
+            this.setState({ images: foundData.hits, isLoading: false });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      pageNumber++;
+    }
+  }
   onFormSubmitFetch = data => {
-    this.setState({ currentSearch: data, isLoading: true });
-
-    fetchImages(data, pageNumber)
-      .then(foundData => {
-        if (foundData.hits == 0) {
-          Notiflix.Notify.failure('There is no images');
-        } else {
-          Notiflix.Notify.success(
-            `Hooray, we found ${foundData.total} images!`
-          );
-          pageNumber++;
-          this.setState({ images: foundData.hits, isLoading: false });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    pageNumber++;
+    this.setState({
+      images: [],
+      currentSearch: data,
+      isLoading: false,
+      showModal: false,
+      modalImage: null,
+      page: 1,
+    });
   };
 
   loadMore = () => {
-    this.setState({ isLoading: true });
+    this.setState(prevState => {
+      prevState.page++;
+    });
     const data = this.state.currentSearch;
     // console.log('search value now -', data);
-    fetchImages(data, pageNumber)
-      .then(foundData => {
-        pageNumber++;
-        this.setState(prevState => ({
-          images: [...prevState.images, ...foundData.hits],
-          isLoading: false,
-        }));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    pageNumber++;
+    // fetchImages(data, pageNumber)
+    //   .then(foundData => {
+    //     pageNumber++;
+    //     this.setState(prevState => ({
+    //       images: [...prevState.images, ...foundData.hits],
+    //       isLoading: false,
+    //     }));
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    // pageNumber++;
   };
 
   toggleModal = modalImage => {
