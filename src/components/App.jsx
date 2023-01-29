@@ -26,22 +26,34 @@ export class App extends Component {
     ) {
       fetchImages(this.state.currentSearch, this.state.page)
         .then(foundData => {
+          console.log(foundData);
+          this.setState({
+            loadMoreButon: foundData.hits.length > 12,
+            isLoading: true,
+          });
           if (foundData.hits == 0) {
             Notiflix.Notify.failure('There is no images');
           } else {
             Notiflix.Notify.success(
-              `Hooray, we found ${foundData.total} images!`
+              `Hooray, we found ${
+                foundData.total - this.state.images.length
+              } images!`
             );
             this.setState(prevState => {
               return {
                 images: [...prevState.images, ...foundData.hits],
-                isLoading: false,
+                loadMoreButon: true,
               };
             });
           }
         })
         .catch(error => {
           console.log(error);
+        })
+        .finally(() => {
+          this.setState({
+            isLoading: false,
+          });
         });
     }
   }
