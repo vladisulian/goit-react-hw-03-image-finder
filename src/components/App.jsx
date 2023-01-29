@@ -20,7 +20,7 @@ export class App extends Component {
     page: 1,
   };
 
-  async componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps, prevState) {
     console.log('component did update');
     console.log(prevState.page);
     if (
@@ -35,7 +35,7 @@ export class App extends Component {
             Notiflix.Notify.success(
               `Hooray, we found ${foundData.total} images!`
             );
-            pageNumber++;
+            this.state.page++;
             this.setState({ images: foundData.hits, isLoading: false });
           }
         })
@@ -49,7 +49,6 @@ export class App extends Component {
     this.setState({
       images: [],
       currentSearch: data,
-      isLoading: false,
       showModal: false,
       modalImage: null,
       page: 1,
@@ -60,7 +59,7 @@ export class App extends Component {
     this.setState(prevState => {
       prevState.page++;
     });
-    const data = this.state.currentSearch;
+
     // console.log('search value now -', data);
     // fetchImages(data, pageNumber)
     //   .then(foundData => {
