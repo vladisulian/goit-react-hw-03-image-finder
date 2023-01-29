@@ -8,8 +8,6 @@ import { Modal } from './Modal/Modal';
 import Notiflix from 'notiflix';
 import { Audio } from 'react-loader-spinner';
 
-let pageNumber = 1;
-
 export class App extends Component {
   state = {
     images: [],
@@ -22,7 +20,6 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // console.log('component did update');
-    console.log('prevState.page', prevState.page);
     console.log('this.state.page', this.state.page);
     if (
       prevState.page !== this.state.page ||
@@ -36,8 +33,14 @@ export class App extends Component {
             Notiflix.Notify.success(
               `Hooray, we found ${foundData.total} images!`
             );
-            // this.state.page++;
-            this.setState({ images: foundData.hits, isLoading: false });
+            this.setState(prevState => {
+              return {
+                images: [prevState.images]
+                  .concat(foundData.hits)
+                  .flat(Infinity),
+                isLoading: false,
+              };
+            });
           }
         })
         .catch(error => {
@@ -61,10 +64,6 @@ export class App extends Component {
         page: prevState.page + 1,
       };
     });
-
-    setTimeout(() => {
-      console.log(this.state.page);
-    }, 200);
 
     // console.log('search value now -', data);
     // fetchImages(data, pageNumber)
