@@ -15,12 +15,11 @@ export class App extends Component {
     isLoading: false,
     showModal: false,
     modalImage: null,
+    loadMoreButon: false,
     page: 1,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('component did update');
-    console.log('this.state.page', this.state.page);
     if (
       prevState.page !== this.state.page ||
       prevState.currentSearch !== this.state.currentSearch
@@ -35,9 +34,7 @@ export class App extends Component {
             );
             this.setState(prevState => {
               return {
-                images: [prevState.images]
-                  .concat(foundData.hits)
-                  .flat(Infinity),
+                images: [...prevState.images, ...foundData.hits],
                 isLoading: false,
               };
             });
@@ -64,20 +61,6 @@ export class App extends Component {
         page: prevState.page + 1,
       };
     });
-
-    // console.log('search value now -', data);
-    // fetchImages(data, pageNumber)
-    //   .then(foundData => {
-    //     pageNumber++;
-    //     this.setState(prevState => ({
-    //       images: [...prevState.images, ...foundData.hits],
-    //       isLoading: false,
-    //     }));
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-    // pageNumber++;
   };
 
   toggleModal = modalImage => {
@@ -92,12 +75,6 @@ export class App extends Component {
   };
 
   render() {
-    const loader = document.querySelector('[data-testid="audio-loading"]');
-    if (loader) {
-      console.log(loader);
-      loader.classList.add('loader');
-    }
-
     return (
       <div className="ImageGalleryFind">
         <Searchbar onSubmit={this.onFormSubmitFetch} />
@@ -129,7 +106,7 @@ export class App extends Component {
             }
           ></Modal>
         )}
-        {this.state.images.length >= 12 && (
+        {this.state.loadMoreButon && (
           <LoadMoreButton loadMore={this.loadMore} />
         )}
       </div>
