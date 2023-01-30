@@ -26,7 +26,6 @@ export class App extends Component {
     ) {
       fetchImages(this.state.currentSearch, this.state.page)
         .then(foundData => {
-        
           if (foundData.hits == 0) {
             Notiflix.Notify.failure('There is no images');
           } else {
@@ -38,7 +37,8 @@ export class App extends Component {
             this.setState(prevState => {
               return {
                 images: [...prevState.images, ...foundData.hits],
-                loadMoreButon: this.state.page < Math.ceil( foundData.total /12),
+                loadMoreButon:
+                  this.state.page < Math.ceil(foundData.total / 12),
               };
             });
           }
